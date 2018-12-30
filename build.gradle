@@ -29,3 +29,15 @@ dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-web')
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
+
+plugins {
+	id 'java'
+}
+
+jar {
+	manifest {
+		attributes(
+				'Main-Class': 'com.dmd.physical_iot.physical.PhysicalApplication'
+		)
+	}
+}
