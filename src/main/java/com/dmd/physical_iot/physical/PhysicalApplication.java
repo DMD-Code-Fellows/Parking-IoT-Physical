@@ -7,8 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class PhysicalApplication {
 
 	public static void main(String[] args) {
-//		SpringApplication.run(PhysicalApplication.class, args);
+		SpringApplication.run(PhysicalApplication.class, args);
 		System.out.println("Hello Raspberry PI!");
+		System.out.println("http://localhost:8080");
+
 	}
 
 }
