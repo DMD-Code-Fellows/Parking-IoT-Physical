@@ -5,6 +5,11 @@ import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import java.net.URI;
 
 @SpringBootApplication
 public class PhysicalApplication {
@@ -16,6 +21,7 @@ public class PhysicalApplication {
 //
 //	}
 public static void main(String args[]) throws InterruptedException {
+
 
 	System.out.println("<--Pi4J--> GPIO Listen Example ... started.");
 
@@ -51,6 +57,7 @@ public static void main(String args[]) throws InterruptedException {
 	// keep program running until user aborts (CTRL-C)
 	while(true) {
 		Thread.sleep(500);
+
 	}
 
 	// stop all GPIO activity/threads by shutting down the GPIO controller
