@@ -31,7 +31,7 @@ public class PhysicalApplication {
 				paramsMap.add("parkingSpaceEvent", "OCCUPY");
 
 				WebClient.RequestHeadersSpec requestSpec = WebClient
-						.create("http://172.16.15.75:8080")
+						.create("http://172.16.2.228:8080")
 						.put()
 						.uri("/space-map/update")
 						.body(BodyInserters.fromMultipartData(paramsMap));
