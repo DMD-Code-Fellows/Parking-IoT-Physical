@@ -1,20 +1,13 @@
 package com.dmd.physical_iot.physical;
 
 import com.pi4j.io.gpio.*;
-import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
-import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 import com.pi4j.io.gpio.trigger.GpioCallbackTrigger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
-import java.time.Duration;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Callable;
 
 
@@ -28,7 +21,7 @@ import java.util.concurrent.Callable;
 			// create gpio controller
 			final GpioController gpio = GpioFactory.getInstance();
 			// provision gpio pin #02 as an input pin with its internal pull down resistor enabled
-			final GpioPinDigitalInput myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_07, "R1-1",
+			final GpioPinDigitalInput myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_02, "R1-1",
 					PinPullResistance.PULL_DOWN);
 			// create a gpio callback trigger on gpio pin#4; when #4 changes state, perform a callback
 			// invocation on the user defined 'Callable' class instance
