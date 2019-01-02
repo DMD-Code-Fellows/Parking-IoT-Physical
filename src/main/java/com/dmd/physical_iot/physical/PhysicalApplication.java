@@ -30,16 +30,17 @@ import java.util.concurrent.Callable;
 			// provision gpio pin #02 as an input pin with its internal pull down resistor enabled
 			final GpioPinDigitalInput myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_07, "R1-1",
 					PinPullResistance.PULL_DOWN);
-			System.out.println(" ... complete the GPIO #02 circuit and see the triggers take effect.");
 			// create a gpio callback trigger on gpio pin#4; when #4 changes state, perform a callback
 			// invocation on the user defined 'Callable' class instance
+			Boolean status = myButton.getState().isLow();
+			String sendStatus = status ? "VACANT" : "OCCUPY";
 			myButton.addTrigger(new GpioCallbackTrigger(new Callable<Void>() {
 				public Void call() throws Exception {
 					System.out.println(" --> GPIO TRIGGER CALLBACK heck RECEIVED" + myButton.getState());
 					LinkedMultiValueMap paramsMap = new LinkedMultiValueMap();
 					paramsMap.add("parkingLotName", "Parking Lot One");
 					paramsMap.add("parkingSpaceName", "R1-1");
-					paramsMap.add("parkingSpaceEvent", "OCCUPY");
+					paramsMap.add("parkingSpaceEvent", sendStatus);
 					WebClient.RequestHeadersSpec requestSpec = WebClient
 							.create("http://172.16.2.228:8080")
 							.put()
