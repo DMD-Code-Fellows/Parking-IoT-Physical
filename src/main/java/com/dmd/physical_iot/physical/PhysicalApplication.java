@@ -1,6 +1,11 @@
 package com.dmd.physical_iot.physical;
 
+import com.dmd.iot.parking_iot.common.ParkingSpaceEvents;
 import com.pi4j.io.gpio.*;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 10f7d9f86c53988b365481689e030ebcabb50048
 import com.pi4j.io.gpio.trigger.GpioCallbackTrigger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,9 +15,11 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.concurrent.Callable;
 
+import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.OCCUPY;
+import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 
 
-	@SpringBootApplication
+@SpringBootApplication
 	public class PhysicalApplication {
 		public static void main(String[] args) {
 
@@ -29,13 +36,14 @@ import java.util.concurrent.Callable;
 			myButton.addTrigger(new GpioCallbackTrigger(new Callable<Void>() {
 				public Void call() throws Exception {
 					Boolean status =  myButton.getState().isLow();
-					String sendStatus = (status) ? "VACATE" : "OCCUPY";
-					String spotName = myButton.getName();
+
+					ParkingSpaceEvents sendStatus = (status) ? VACATE : OCCUPY;
 					System.out.println(" --> GPIO TRIGGER CALLBACK heck RECEIVED" + myButton.getState() + status + sendStatus);
 					LinkedMultiValueMap paramsMap = new LinkedMultiValueMap();
 					paramsMap.add("parkingLotName", "Parking Lot One");
-					paramsMap.add("parkingSpaceName", spotName);
-					paramsMap.add("parkingSpaceEvent", sendStatus);
+					paramsMap.add("parkingSpaceName", "R1-1");
+					paramsMap.add("parkingSpaceEvent", sendStatus.toString());
+
 					WebClient.RequestHeadersSpec requestSpec = WebClient
 							.create("http://172.16.2.228:8080")
 							.put()
