@@ -26,17 +26,17 @@ public class PhysicalApplication {
 				// display pin state on console
 				System.out.println(" --> GPIO PIN STATE CHANGE: " + event.getPin().getName() + " = " + event.getState());
 
-//				LinkedMultiValueMap paramsMap = new LinkedMultiValueMap();
-//				paramsMap.add("parkingLotName", "Parking Lot One");
-//				paramsMap.add("parkingSpaceName", event.getPin().getName());
-//				paramsMap.add("parkingSpaceEvent", "OCCUPY");
-//
-//				WebClient.RequestHeadersSpec requestSpec = WebClient
-//						.create("http://127.0.1.1:8080")
-//						.put()
-//						.uri("/space-map/update")
-//						.body(BodyInserters.fromMultipartData(paramsMap));
-//
+				LinkedMultiValueMap paramsMap = new LinkedMultiValueMap();
+				paramsMap.add("parkingLotName", "Parking Lot One");
+				paramsMap.add("parkingSpaceName", event.getPin().getName());
+				paramsMap.add("parkingSpaceEvent", "OCCUPY");
+
+				WebClient.RequestHeadersSpec requestSpec = WebClient
+						.create("http://127.0.1.1:8080")
+						.put()
+						.uri("/space-map/update")
+						.body(BodyInserters.fromMultipartData(paramsMap));
+
 //				String responseSpec = requestSpec.retrieve()
 //						.bodyToMono(String.class)
 //						.block();
