@@ -21,6 +21,26 @@ public class PhysicalApplication {
 
 		System.out.println("<--Pi4J--> GPIO Listen Example ... started.");
 
+		/**
+		 * code to show change of server database, upon bootrun of pi
+		 * Comment in below and comment out COMPLETELY line: 45 through 124
+		 */
+//		LinkedMultiValueMap paramsMap = new LinkedMultiValueMap();
+//		paramsMap.add("parkingLotName", "Parking Lot One");
+//		paramsMap.add("parkingSpaceName", "R1-1");
+//		paramsMap.add("parkingSpaceEvent", "OCCUPY");
+//
+//		WebClient.RequestHeadersSpec requestSpec = WebClient
+//				.create("http://127.0.1.1:8080")
+//				.put()
+//				.uri("/space-map/update")
+//				.body(BodyInserters.fromMultipartData(paramsMap));
+//
+//		String responseSpec = requestSpec.retrieve()
+//				.bodyToMono(String.class)
+//				.block();
+//		System.out.println(responseSpec);
+
 
 		// create GPIO controller
 		final GpioController gpio = GpioFactory.getInstance();
@@ -37,6 +57,9 @@ public class PhysicalApplication {
 				paramsMap.add("parkingSpaceName", event.getPin().getName());
 				paramsMap.add("parkingSpaceEvent", "OCCUPY");
 
+				/**
+				 * code where I was playing around with flux instead of mono
+				 */
 //				WebClient requestSpec = WebClient
 //						.create("http://127.0.1.1:8080");
 //
@@ -51,6 +74,25 @@ public class PhysicalApplication {
 //
 //				responseSpec.subscribe(str -> System.out.println("Received: {}" + str));
 
+				/**
+				 * another flux webclient configuration
+				 */
+//				WebClient.RequestHeadersSpec requestSpec = WebClient
+//						.create("http://127.0.1.1:8080")
+//						.put()
+//						.uri("/space-map/update")
+//						.body(BodyInserters.fromMultipartData(paramsMap));
+//
+//				Flux<String> responseSpec = requestSpec.retrieve()
+//						.bodyToFlux(String.class)
+//						.flatMap(entry -> Flux.just(entry));
+//
+//				System.out.println(responseSpec);
+//			}
+
+				/**
+				 * code from tuesday added in with block duration to see if this would provide enought client to respond
+				 */
 				WebClient.RequestHeadersSpec requestSpec = WebClient
 						.create("http://127.0.1.1:8080")
 						.put()
