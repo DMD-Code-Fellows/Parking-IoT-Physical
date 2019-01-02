@@ -25,43 +25,43 @@ public class PhysicalApplication {
 		 * code to show change of server database, upon bootrun of pi
 		 * Comment in below and comment out COMPLETELY line: 45 through 124
 		 */
-//		LinkedMultiValueMap paramsMap = new LinkedMultiValueMap();
-//		paramsMap.add("parkingLotName", "Parking Lot One");
-//		paramsMap.add("parkingSpaceName", "R1-1");
-//		paramsMap.add("parkingSpaceEvent", "OCCUPY");
-//
-//		WebClient.RequestHeadersSpec requestSpec = WebClient
-//				.create("http://127.0.1.1:8080")
-//				.put()
-//				.uri("/space-map/update")
-//				.body(BodyInserters.fromMultipartData(paramsMap));
-//
-//		String responseSpec = requestSpec.retrieve()
-//				.bodyToMono(String.class)
-//				.block();
-//		System.out.println(responseSpec);
+		LinkedMultiValueMap paramsMap = new LinkedMultiValueMap();
+		paramsMap.add("parkingLotName", "Parking Lot One");
+		paramsMap.add("parkingSpaceName", "R1-1");
+		paramsMap.add("parkingSpaceEvent", "OCCUPY");
+
+		WebClient.RequestHeadersSpec requestSpec = WebClient
+				.create("http://172.16.2.228:8080")
+				.put()
+				.uri("/space-map/update")
+				.body(BodyInserters.fromMultipartData(paramsMap));
+
+		String responseSpec = requestSpec.retrieve()
+				.bodyToMono(String.class)
+				.block();
+		System.out.println(responseSpec);
 
 
 		// create GPIO controller
-		final GpioController gpio = GpioFactory.getInstance();
+//		final GpioController gpio = GpioFactory.getInstance();
 
 		// create GPIO listener
-		GpioPinListenerDigital listener  = new GpioPinListenerDigital() {
-			@Override
-			public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
-				// display pin state on console
-				System.out.println(" --> GPIO PIN STATE CHANGE: " + event.getPin().getName() + " = " + event.getState());
-
-				LinkedMultiValueMap paramsMap = new LinkedMultiValueMap();
-				paramsMap.add("parkingLotName", "Parking Lot One");
-				paramsMap.add("parkingSpaceName", event.getPin().getName());
-				paramsMap.add("parkingSpaceEvent", "OCCUPY");
+////		GpioPinListenerDigital listener  = new GpioPinListenerDigital() {
+//			@Override
+//			public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
+//				// display pin state on console
+//				System.out.println(" --> GPIO PIN STATE CHANGE: " + event.getPin().getName() + " = " + event.getState());
+//
+//				LinkedMultiValueMap paramsMap = new LinkedMultiValueMap();
+//				paramsMap.add("parkingLotName", "Parking Lot One");
+//				paramsMap.add("parkingSpaceName", event.getPin().getName());
+//				paramsMap.add("parkingSpaceEvent", "OCCUPY");
 
 				/**
 				 * code where I was playing around with flux instead of mono
 				 */
 //				WebClient requestSpec = WebClient
-//						.create("http://127.0.1.1:8080");
+//						.create("http://172.16.2.228:8080");
 //
 //
 //				Flux<String> responseSpec = requestSpec.put()
@@ -78,7 +78,7 @@ public class PhysicalApplication {
 				 * another flux webclient configuration
 				 */
 //				WebClient.RequestHeadersSpec requestSpec = WebClient
-//						.create("http://127.0.1.1:8080")
+//						.create("http://172.16.2:8080")
 //						.put()
 //						.uri("/space-map/update")
 //						.body(BodyInserters.fromMultipartData(paramsMap));
@@ -93,42 +93,42 @@ public class PhysicalApplication {
 				/**
 				 * code from tuesday added in with block duration to see if this would provide enought client to respond
 				 */
-				WebClient.RequestHeadersSpec requestSpec = WebClient
-						.create("http://127.0.1.1:8080")
-						.put()
-						.uri("/space-map/update")
-						.body(BodyInserters.fromMultipartData(paramsMap));
-
-			String responseSpec = requestSpec.retrieve()
-						.bodyToMono(String.class)
-						.block(Duration.ofSeconds(5));
-				System.out.println(responseSpec);
-			}
-
-
-		};
+//				WebClient.RequestHeadersSpec requestSpec = WebClient
+//						.create("http://172.16.2.228:8080")
+//						.put()
+//						.uri("/space-map/update")
+//						.body(BodyInserters.fromMultipartData(paramsMap));
+//
+//			String responseSpec = requestSpec.retrieve()
+//						.bodyToMono(String.class)
+//						.block(Duration.ofSeconds(5));
+//				System.out.println(responseSpec);
+//			}
+//
+//
+//		};
 
 		// provision gpio input pins with its internal pull down resistor enabled
-		GpioPinDigitalInput[] pins = {
-				gpio.provisionDigitalInputPin(RaspiPin.GPIO_00, "R1-1", PinPullResistance.PULL_DOWN),
-				gpio.provisionDigitalInputPin(RaspiPin.GPIO_01, "R1-2", PinPullResistance.PULL_DOWN),
-				gpio.provisionDigitalInputPin(RaspiPin.GPIO_02, "R1-3", PinPullResistance.PULL_DOWN),
-				gpio.provisionDigitalInputPin(RaspiPin.GPIO_03, "R1-4", PinPullResistance.PULL_DOWN),
-				gpio.provisionDigitalInputPin(RaspiPin.GPIO_04, "R1-5", PinPullResistance.PULL_DOWN),
-				gpio.provisionDigitalInputPin(RaspiPin.GPIO_05, "R1-6", PinPullResistance.PULL_DOWN),
-				gpio.provisionDigitalInputPin(RaspiPin.GPIO_06, "R2-1", PinPullResistance.PULL_DOWN),
-				gpio.provisionDigitalInputPin(RaspiPin.GPIO_07, "R2-2", PinPullResistance.PULL_DOWN),
-		};
+//		GpioPinDigitalInput[] pins = {
+//				gpio.provisionDigitalInputPin(RaspiPin.GPIO_00, "R1-1", PinPullResistance.PULL_DOWN),
+//				gpio.provisionDigitalInputPin(RaspiPin.GPIO_01, "R1-2", PinPullResistance.PULL_DOWN),
+//				gpio.provisionDigitalInputPin(RaspiPin.GPIO_02, "R1-3", PinPullResistance.PULL_DOWN),
+//				gpio.provisionDigitalInputPin(RaspiPin.GPIO_03, "R1-4", PinPullResistance.PULL_DOWN),
+//				gpio.provisionDigitalInputPin(RaspiPin.GPIO_04, "R1-5", PinPullResistance.PULL_DOWN),
+//				gpio.provisionDigitalInputPin(RaspiPin.GPIO_05, "R1-6", PinPullResistance.PULL_DOWN),
+//				gpio.provisionDigitalInputPin(RaspiPin.GPIO_06, "R2-1", PinPullResistance.PULL_DOWN),
+//				gpio.provisionDigitalInputPin(RaspiPin.GPIO_07, "R2-2", PinPullResistance.PULL_DOWN),
+//		};
 
 		 //create and register gpio pin listener
-		gpio.addListener(listener, pins);
+//		gpio.addListener(listener, pins);
 
 		System.out.println(" ... complete the GPIO circuit and see the listener feedback here in the console.");
 
 		// keep program running until user aborts (CTRL-C)
-		while(true) {
-			Thread.sleep(500);
-		}
+//		while(true) {
+//			Thread.sleep(500);
+//		}
 
 		// stop all GPIO activity/threads by shutting down the GPIO controller
 		// (this method will forcefully shutdown all GPIO monitoring threads and scheduled tasks)
