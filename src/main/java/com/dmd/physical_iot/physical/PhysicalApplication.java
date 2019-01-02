@@ -36,7 +36,7 @@ import java.util.concurrent.Callable;
 			myButton.addTrigger(new GpioCallbackTrigger(new Callable<Void>() {
 				public Void call() throws Exception {
 					Boolean status =  myButton.getState().isLow();
-					String sendStatus = status ? "OCCUPY" : "VACANT";
+					String sendStatus = (status) ? "VACATE" : "OCCUPY";
 					System.out.println(" --> GPIO TRIGGER CALLBACK heck RECEIVED" + myButton.getState() + status + sendStatus);
 					LinkedMultiValueMap paramsMap = new LinkedMultiValueMap();
 					paramsMap.add("parkingLotName", "Parking Lot One");
