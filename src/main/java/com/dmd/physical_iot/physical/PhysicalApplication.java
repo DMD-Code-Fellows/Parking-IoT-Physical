@@ -28,7 +28,7 @@ public class PhysicalApplication {
 
 				LinkedMultiValueMap paramsMap = new LinkedMultiValueMap();
 				paramsMap.add("parkingLotName", "Parking Lot One");
-				paramsMap.add("parkingSpaceName", "R1-1");
+				paramsMap.add("parkingSpaceName", event.getPin().getName());
 				paramsMap.add("parkingSpaceEvent", "OCCUPY");
 
 				WebClient.RequestHeadersSpec requestSpec = WebClient
