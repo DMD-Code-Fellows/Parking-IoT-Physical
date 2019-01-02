@@ -30,6 +30,7 @@ dependencies {
 	compile group: 'com.pi4j', name: 'pi4j-gpio-extension', version: '1.1'
 	compile 'org.springframework.boot:spring-boot-starter-webflux'
 	compile 'org.projectreactor:reactor-spring:1.0.1.RELEASE'
+	compile files('libs/parking-iot-common-1.0.0.jar')
 }
 
 
