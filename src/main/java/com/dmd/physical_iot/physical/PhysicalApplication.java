@@ -21,7 +21,7 @@ import java.util.concurrent.Callable;
 			// create gpio controller
 			final GpioController gpio = GpioFactory.getInstance();
 			// provision gpio pin #02 as an input pin with its internal pull down resistor enabled
-			final GpioPinDigitalInput myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_07, "R1-1",
+			final GpioPinDigitalInput myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_07, "R1-2",
 					PinPullResistance.PULL_DOWN);
 			// create a gpio callback trigger on gpio pin#4; when #4 changes state, perform a callback
 			// invocation on the user defined 'Callable' class instance
