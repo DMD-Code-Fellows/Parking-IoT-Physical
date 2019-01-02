@@ -41,7 +41,7 @@ import java.util.concurrent.Callable;
 					LinkedMultiValueMap paramsMap = new LinkedMultiValueMap();
 					paramsMap.add("parkingLotName", "Parking Lot One");
 					paramsMap.add("parkingSpaceName", "R1-1");
-					paramsMap.add("parkingSpaceEvent", "OCCUPY");
+					paramsMap.add("parkingSpaceEvent", myButton);
 					WebClient.RequestHeadersSpec requestSpec = WebClient
 							.create("http://172.16.2.228:8080")
 							.put()
