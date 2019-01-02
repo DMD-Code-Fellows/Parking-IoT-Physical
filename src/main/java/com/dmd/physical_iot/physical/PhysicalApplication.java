@@ -2,10 +2,8 @@ package com.dmd.physical_iot.physical;
 
 import com.dmd.iot.parking_iot.common.ParkingSpaceEvents;
 import com.pi4j.io.gpio.*;
-<<<<<<< HEAD
-=======
 
->>>>>>> 10f7d9f86c53988b365481689e030ebcabb50048
+
 import com.pi4j.io.gpio.trigger.GpioCallbackTrigger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
