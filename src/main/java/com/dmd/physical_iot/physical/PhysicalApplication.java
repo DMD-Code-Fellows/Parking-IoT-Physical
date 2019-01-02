@@ -36,7 +36,7 @@ import java.util.concurrent.Callable;
 			myButton.addTrigger(new GpioCallbackTrigger(new Callable<Void>() {
 				public Void call() throws Exception {
 					Boolean status =  myButton.getState().isLow();
-					String sendStatus = status ? "VACANT" : "OCCUPY";
+					String sendStatus = status ? "OCCUPY" : "VACANT";
 					System.out.println(" --> GPIO TRIGGER CALLBACK heck RECEIVED" + myButton.getState() + status + sendStatus);
 					LinkedMultiValueMap paramsMap = new LinkedMultiValueMap();
 					paramsMap.add("parkingLotName", "Parking Lot One");
@@ -50,7 +50,7 @@ import java.util.concurrent.Callable;
 					String responseSpec = requestSpec.retrieve()
 							.bodyToMono(String.class)
 							.block();
-					System.out.println(responseSpec);
+					System.out.println(responseSpec + myButton.getState() + status + sendStatus);
 
 					return null;
 				}
