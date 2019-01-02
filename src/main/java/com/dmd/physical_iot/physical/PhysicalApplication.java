@@ -10,6 +10,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 
@@ -56,11 +57,9 @@ public class PhysicalApplication {
 						.uri("/space-map/update")
 						.body(BodyInserters.fromMultipartData(paramsMap));
 
-				Flux<String> responseSpec = requestSpec.retrieve()
-						.bodyToFlux(String.class)
-						.flatMap(entry -> Flux.just(entry));
-
-//						.block();
+			String responseSpec = requestSpec.retrieve()
+						.bodyToMono(String.class)
+						.block(Duration.ofSeconds(5));
 				System.out.println(responseSpec);
 			}
 
