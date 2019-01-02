@@ -8,8 +8,10 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Map;
 
 @SpringBootApplication
 public class PhysicalApplication {
@@ -34,20 +36,30 @@ public class PhysicalApplication {
 				paramsMap.add("parkingSpaceName", event.getPin().getName());
 				paramsMap.add("parkingSpaceEvent", "OCCUPY");
 
-				WebClient requestSpec = WebClient
-						.create("http://127.0.1.1:8080");
+//				WebClient requestSpec = WebClient
+//						.create("http://127.0.1.1:8080");
+//
+//
+//				Flux<String> responseSpec = requestSpec.put()
+//						.uri("/space-map/update")
+//						.body(BodyInserters.fromMultipartData(paramsMap))
+//						.retrieve()
+//						.bodyToFlux(String.class)
+//						.flatMap(e -> Mono.justOrEmpty(e));
+//
+//
+//				responseSpec.subscribe(str -> System.out.println("Received: {}" + str));
 
-
-				Flux<String> responseSpec = requestSpec.put()
+				WebClient.RequestHeadersSpec requestSpec = WebClient
+						.create("http://127.0.1.1:8080")
+						.put()
 						.uri("/space-map/update")
-						.body(BodyInserters.fromMultipartData(paramsMap))
-						.retrieve()
+						.body(BodyInserters.fromMultipartData(paramsMap));
+
+				Flux<String> responseSpec = requestSpec.retrieve()
 						.bodyToFlux(String.class);
-
-				responseSpec.subscribe(str -> System.out.println("Received: {}" + str));
-
 //						.block();
-//				System.out.println(responseSpec);
+				System.out.println(responseSpec);
 			}
 
 
