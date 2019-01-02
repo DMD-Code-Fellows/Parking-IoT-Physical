@@ -1,20 +1,13 @@
 package com.dmd.physical_iot.physical;
 
 import com.pi4j.io.gpio.*;
-import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
-import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 import com.pi4j.io.gpio.trigger.GpioCallbackTrigger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
-import java.time.Duration;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Callable;
 
 
@@ -37,10 +30,11 @@ import java.util.concurrent.Callable;
 				public Void call() throws Exception {
 					Boolean status =  myButton.getState().isLow();
 					String sendStatus = (status) ? "VACATE" : "OCCUPY";
+					String spotName = myButton.getName();
 					System.out.println(" --> GPIO TRIGGER CALLBACK heck RECEIVED" + myButton.getState() + status + sendStatus);
 					LinkedMultiValueMap paramsMap = new LinkedMultiValueMap();
 					paramsMap.add("parkingLotName", "Parking Lot One");
-					paramsMap.add("parkingSpaceName", "R1-1");
+					paramsMap.add("parkingSpaceName", spotName);
 					paramsMap.add("parkingSpaceEvent", sendStatus);
 					WebClient.RequestHeadersSpec requestSpec = WebClient
 							.create("http://172.16.2.228:8080")
