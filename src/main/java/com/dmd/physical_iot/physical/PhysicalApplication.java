@@ -57,7 +57,9 @@ public class PhysicalApplication {
 						.body(BodyInserters.fromMultipartData(paramsMap));
 
 				Flux<String> responseSpec = requestSpec.retrieve()
-						.bodyToFlux(String.class);
+						.bodyToFlux(String.class)
+						.flatMap(entry -> Flux.just(entry));
+
 //						.block();
 				System.out.println(responseSpec);
 			}
