@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 
 @SpringBootApplication
 public class PhysicalApplication {
@@ -37,10 +38,10 @@ public class PhysicalApplication {
 						.uri("/space-map/update")
 						.body(BodyInserters.fromMultipartData(paramsMap));
 
-//				String responseSpec = requestSpec.retrieve()
-//						.bodyToMono(String.class)
+				Flux<String> responseSpec = requestSpec.retrieve()
+						.bodyToFlux(String.class);
 //						.block();
-//				System.out.println(responseSpec);
+				System.out.println(responseSpec);
 			}
 
 
