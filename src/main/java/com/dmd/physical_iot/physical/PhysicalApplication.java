@@ -51,6 +51,7 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 			final GpioPinDigitalInput myButton2 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_07, "R1-1",
 					PinPullResistance.PULL_DOWN);
 
+
 			/**
 			 * Creates a gpio callback trigger internally when the state of the decorator interface changes.
 			 * @param invokable GpioCallbackTrigger method
@@ -110,6 +111,7 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 					return null;
 				}
 			}));
+
 
 			/**
 			 * Creates a gpio callback trigger internally when the state of the decorator interface changes.
@@ -176,7 +178,16 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 			 * static block for dynamic linking use of wiring pi
 			 */
 		}
+
+		ParkingSpaceEvents currentState(GpioPinDigitalInput button){
+			Boolean status =  button.getState().isLow();
+			ParkingSpaceEvents sendStatus = (status) ? VACATE : OCCUPY;
+		return sendStatus;
+	}
 		static {
 			System.setProperty("pi4j.linking", "dynamic");
 		}
+
+
+
 	}
