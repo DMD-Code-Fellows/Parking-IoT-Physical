@@ -40,33 +40,68 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 			 *
 			 */
 			final GpioController gpio = GpioFactory.getInstance();
-			// provision gpio pin #02 as an input pin with its internal pull down resistor enabled
 
+			/**
+			 * Creates a decorator interface to describe digital digital input pin using GPIO controller interface. Provisions input pin with pin and name parameter with internal pull down resistor enabled.
+			 * @param pin pin
+			 * @param String name
+			 */
 			final GpioPinDigitalInput myButton1 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_02, "R2-6",
 					PinPullResistance.PULL_DOWN);
 			final GpioPinDigitalInput myButton2 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_07, "R1-1",
 					PinPullResistance.PULL_DOWN);
 
-			// create a gpio callback trigger on gpio pin#4; when #4 changes state, perform a callback
-			// invocation on the user defined 'Callable' class instance
-
+			/**
+			 * Creates a gpio callback trigger internally when the state of the decorator interface changes.
+			 * @param invokable GpioCallbackTrigger method
+			 * @param Pinstate state
+			 * @param Callable<void> callback
+			 */
 			myButton1.addTrigger(new GpioCallbackTrigger(new Callable<Void>() {
 				public Void call() throws Exception {
 
+					/**
+					 * check if status of decorator interface is currently low
+					 * if true, current space is enum VACANT
+					 * else, current space is enum OCCUPIED
+					 */
 					Boolean status =  myButton1.getState().isLow();
 					ParkingSpaceEvents sendStatus = (status) ? VACATE : OCCUPY;
+
+					/**
+					 * get decorator interface's name.
+					 */
 					String spotName = myButton1.getName();
 					System.out.println(" --> GPIO TRIGGER CALLBACK heck RECEIVED" + myButton1.getState() + status + sendStatus);
+
+					/**
+					 * Spring framework utility
+					 * implementation of MultiValueMap that wraps a LinkedHashMap
+					 * creates enum object handled by web client request
+					 */
 					LinkedMultiValueMap paramsMap = new LinkedMultiValueMap();
 					paramsMap.add("parkingLotName", "Parking Lot One");
 					paramsMap.add("parkingSpaceName", spotName);
 					paramsMap.add("parkingSpaceEvent", sendStatus.toString());
 
+					/**
+					 * Non-blocking, reactive client to perform HTTP requests, exposing a fluent, reactive API over underlying HTTP client libraries such as Reactor Netty.
+					 * @static_method create() create a new WebCLient with Reactor Netty by default
+					 * @instance_method put() Start building an HTTP PUT request
+					 * @param paramsMap reference to the spec type
+					 *
+					 */
 					WebClient.RequestHeadersSpec requestSpec = WebClient
 							.create("http://10.0.0.9:8080")
 							.put()
 							.uri("/space-map/update")
 							.body(BodyInserters.fromMultipartData(paramsMap));
+
+					/**
+					 * Perform the HTTP request and retrieve the response body
+					 * @bodyToMono Extracts the body to a Mono
+					 *
+					 */
 					String responseSpec = requestSpec.retrieve()
 							.bodyToMono(String.class)
 							.block();
@@ -76,21 +111,57 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 				}
 			}));
 
+			/**
+			 * Creates a gpio callback trigger internally when the state of the decorator interface changes.
+			 * @param invokable GpioCallbackTrigger method
+			 * @param Pinstate state
+			 * @param Callable<void> callback
+			 */
 			myButton2.addTrigger(new GpioCallbackTrigger(new Callable<Void>() {
 				public Void call() throws Exception {
+
+					/**
+					 * check if status of decorator interface is currently low
+					 * if true, current space is enum VACANT
+					 * else, current space is enum OCCUPIED
+					 */
 					Boolean status =  myButton2.getState().isLow();
 					ParkingSpaceEvents sendStatus = (status) ? VACATE : OCCUPY;
+
+					/**
+					 * get decorator interface's name.
+					 */
 					String spotName = myButton2.getName();
 					System.out.println(" --> GPIO TRIGGER CALLBACK heck RECEIVED" + myButton1.getState() + status + sendStatus);
+
+					/**
+					 * Spring framework utility
+					 * implementation of MultiValueMap that wraps a LinkedHashMap
+					 * creates enum object handled by web client request
+					 */
 					LinkedMultiValueMap paramsMap = new LinkedMultiValueMap();
 					paramsMap.add("parkingLotName", "Parking Lot One");
 					paramsMap.add("parkingSpaceName", spotName);
 					paramsMap.add("parkingSpaceEvent", sendStatus.toString());
+
+					/**
+					 * Non-blocking, reactive client to perform HTTP requests, exposing a fluent, reactive API over underlying HTTP client libraries such as Reactor Netty.
+					 * @static_method create() create a new WebCLient with Reactor Netty by default
+					 * @instance_method put() Start building an HTTP PUT request
+					 * @param paramsMap reference to the spec type
+					 *
+					 */
 					WebClient.RequestHeadersSpec requestSpec = WebClient
 							.create("http://10.0.0.9:8080")
 							.put()
 							.uri("/space-map/update")
 							.body(BodyInserters.fromMultipartData(paramsMap));
+
+					/**
+					 * Perform the HTTP request and retrieve the response body
+					 * @bodyToMono Extracts the body to a Mono
+					 *
+					 */
 					String responseSpec = requestSpec.retrieve()
 							.bodyToMono(String.class)
 							.block();
@@ -101,8 +172,9 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 			}));
 
 
-
-
+			/**
+			 * static block for dynamic linking use of wiring pi
+			 */
 		}
 		static {
 			System.setProperty("pi4j.linking", "dynamic");
