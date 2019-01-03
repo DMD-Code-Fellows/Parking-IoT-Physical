@@ -93,7 +93,7 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 					 *
 					 */
 					WebClient.RequestHeadersSpec requestSpec = WebClient
-							.create("http://172.16.2.228:8080")
+							.create("http://parking.my-dog-spot.com")
 							.put()
 							.uri("/space-map/update")
 							.body(BodyInserters.fromMultipartData(paramsMap));
@@ -154,7 +154,7 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 					 *
 					 */
 					WebClient.RequestHeadersSpec requestSpec = WebClient
-							.create("http://172.16.2.228:8080")
+							.create("http://parking.my-dog-spot.com")
 							.put()
 							.uri("/space-map/update")
 							.body(BodyInserters.fromMultipartData(paramsMap));
@@ -179,11 +179,6 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 			 */
 		}
 
-		ParkingSpaceEvents currentState(GpioPinDigitalInput button){
-			Boolean status =  button.getState().isLow();
-			ParkingSpaceEvents sendStatus = (status) ? VACATE : OCCUPY;
-		return sendStatus;
-	}
 		static {
 			System.setProperty("pi4j.linking", "dynamic");
 		}

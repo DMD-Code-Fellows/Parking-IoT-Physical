@@ -41,4 +41,50 @@ In Development
 
 ## Device Setup:
 
-[Mockup White Board Images](docs)
+### Prerequsites
+
+###### Java Runtime (JRE/JDK)
+
+If you are using a recent build of Raspian, then an Oracle Java runtime environment is pre-installed. Nothing more to do.
+
+To check if you have Java installed run:
+
+
+    java -version
+
+
+If you are using an older Raspian build that does not already include a Java runtime environment, then you need to follow these steps to setup the environment:
+* Install and boot the Raspberry Pi using Rasbian
+* run:
+
+    ```
+    apt-get update
+    apt-get install oracle-java8-installer`
+    ```
+###### WiringPi Native Library
+
+The library Pi4j is dependent on the use of an updated version of the library WiringPi. Even though it is native to  Raspian, the most current dependency is using a deprecated version of WiringPi.
+
+To install WiringPi in your local RaspberryPi follow these instructions:
+
+* download: [Wiring Pi 2.46](https://git.drogon.net/?p=wiringPi;a=snapshot;h=8d188fa0e00bb8c6ff6eddd07bf92857e9bd533a;sf=tgz)
+* note the unique identifier number and letters after wiringPi
+    * for example download file name: wiringPi-8d188fcf20.tar.gz
+    * unique identifier number: 8d188fcf20
+* then run this code:
+    ```
+    $ cd
+    $ tar xfz wiringPi-98bcb20.tar.gz
+    $ cd wiringPi-98bcb20
+    $ ./build
+    ```
+* testing wiringPi's Connection
+    * ```
+      $ gpio -v
+      $ gpio readall
+      ```
+    * A version result should display
+
+### Schematics
+
+### RaspberryPi Setup
