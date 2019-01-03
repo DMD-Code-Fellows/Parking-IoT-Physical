@@ -30,22 +30,6 @@ Documentation: [Javadoc](https://dmd-code-fellows.github.io/Parking-IoT-Server/)
 
 ## Environment Setup
 
-#### Software
-
-- Java
-- Spring Boot
-- Spring Statemachine: https://projects.spring.io/spring-statemachine/
-- PostGre SQL
-
-#### Hardware
-- Raspberry Pi
-
-### Getting started with local development
-Spring boot apps require a database in order to run. If you are a developer, and want to work on this application, you'll need to
-setup a local database in order to run.
-See also: application.properties.
-
-
 ###### Current Phase:
 In Development
 
