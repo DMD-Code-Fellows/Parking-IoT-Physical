@@ -63,7 +63,7 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 					paramsMap.add("parkingSpaceEvent", sendStatus.toString());
 
 					WebClient.RequestHeadersSpec requestSpec = WebClient
-							.create("http://parking.my-dog-spot.com")
+							.create("http://10.0.0.9:8080")
 							.put()
 							.uri("/space-map/update")
 							.body(BodyInserters.fromMultipartData(paramsMap));
@@ -79,7 +79,7 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 			myButton2.addTrigger(new GpioCallbackTrigger(new Callable<Void>() {
 				public Void call() throws Exception {
 					Boolean status =  myButton2.getState().isLow();
-					String sendStatus = (status) ? "VACATE" : "OCCUPY";
+					ParkingSpaceEvents sendStatus = (status) ? VACATE : OCCUPY;
 					String spotName = myButton2.getName();
 					System.out.println(" --> GPIO TRIGGER CALLBACK heck RECEIVED" + myButton1.getState() + status + sendStatus);
 					LinkedMultiValueMap paramsMap = new LinkedMultiValueMap();
@@ -87,7 +87,7 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 					paramsMap.add("parkingSpaceName", spotName);
 					paramsMap.add("parkingSpaceEvent", sendStatus);
 					WebClient.RequestHeadersSpec requestSpec = WebClient
-							.create("http://172.16.13.140:8080")
+							.create("http://10.0.0.9:8080")
 							.put()
 							.uri("/space-map/update")
 							.body(BodyInserters.fromMultipartData(paramsMap));
