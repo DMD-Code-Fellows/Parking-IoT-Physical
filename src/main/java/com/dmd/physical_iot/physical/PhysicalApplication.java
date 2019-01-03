@@ -12,6 +12,7 @@ import java.util.concurrent.Callable;
 import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.OCCUPY;
 import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 
+
 /**
  * A Spring Boot parking Internet of Things (IoT) physical-device application.
  *
