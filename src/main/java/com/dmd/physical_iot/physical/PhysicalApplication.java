@@ -93,7 +93,7 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 					 *
 					 */
 					WebClient.RequestHeadersSpec requestSpec = WebClient
-							.create("http://parking.my-dog-spot.com")
+							.create("http://172.16.13.140:8080")
 							.put()
 							.uri("/space-map/update")
 							.body(BodyInserters.fromMultipartData(paramsMap));
@@ -154,7 +154,7 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 					 *
 					 */
 					WebClient.RequestHeadersSpec requestSpec = WebClient
-							.create("http://parking.my-dog-spot.com")
+							.create("http://172.16.13.140:8080")
 							.put()
 							.uri("/space-map/update")
 							.body(BodyInserters.fromMultipartData(paramsMap));
