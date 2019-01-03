@@ -54,12 +54,12 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 				public Void call() throws Exception {
 
 					Boolean status =  myButton1.getState().isLow();
-					String sendStatus = (status) ? "VACATE" : "OCCUPY";
+					ParkingSpaceEvents sendStatus = (status) ? VACATE : OCCUPY;
 					String spotName = myButton1.getName();
 					System.out.println(" --> GPIO TRIGGER CALLBACK heck RECEIVED" + myButton1.getState() + status + sendStatus);
 					LinkedMultiValueMap paramsMap = new LinkedMultiValueMap();
 					paramsMap.add("parkingLotName", "Parking Lot One");
-					paramsMap.add("parkingSpaceName", "R1-6");
+					paramsMap.add("parkingSpaceName", spotName);
 					paramsMap.add("parkingSpaceEvent", sendStatus.toString());
 
 					WebClient.RequestHeadersSpec requestSpec = WebClient
