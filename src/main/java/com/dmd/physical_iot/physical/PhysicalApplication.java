@@ -41,20 +41,22 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 			 */
 			final GpioController gpio = GpioFactory.getInstance();
 			// provision gpio pin #02 as an input pin with its internal pull down resistor enabled
-			/**
-			 *
-			 */
-			final GpioPinDigitalInput myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_07, "R1-2",
+
+			final GpioPinDigitalInput myButton1 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_03, "R2-6",
 					PinPullResistance.PULL_DOWN);
+			final GpioPinDigitalInput myButton2 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_02, "R1-1",
+					PinPullResistance.PULL_DOWN);
+
 			// create a gpio callback trigger on gpio pin#4; when #4 changes state, perform a callback
 			// invocation on the user defined 'Callable' class instance
 
-			myButton.addTrigger(new GpioCallbackTrigger(new Callable<Void>() {
+			myButton1.addTrigger(new GpioCallbackTrigger(new Callable<Void>() {
 				public Void call() throws Exception {
-					Boolean status =  myButton.getState().isLow();
 
-					ParkingSpaceEvents sendStatus = (status) ? VACATE : OCCUPY;
-					System.out.println(" --> GPIO TRIGGER CALLBACK heck RECEIVED" + myButton.getState() + status + sendStatus);
+					Boolean status =  myButton1.getState().isLow();
+					String sendStatus = (status) ? "VACATE" : "OCCUPY";
+					String spotName = myButton1.getName();
+					System.out.println(" --> GPIO TRIGGER CALLBACK heck RECEIVED" + myButton1.getState() + status + sendStatus);
 					LinkedMultiValueMap paramsMap = new LinkedMultiValueMap();
 					paramsMap.add("parkingLotName", "Parking Lot One");
 					paramsMap.add("parkingSpaceName", "R1-6");
@@ -68,11 +70,38 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 					String responseSpec = requestSpec.retrieve()
 							.bodyToMono(String.class)
 							.block();
-					System.out.println(responseSpec + myButton.getState() + status + sendStatus);
+					System.out.println(responseSpec + myButton1.getState() + status + sendStatus);
 
 					return null;
 				}
 			}));
+
+			myButton2.addTrigger(new GpioCallbackTrigger(new Callable<Void>() {
+				public Void call() throws Exception {
+					Boolean status =  myButton2.getState().isLow();
+					String sendStatus = (status) ? "VACATE" : "OCCUPY";
+					String spotName = myButton2.getName();
+					System.out.println(" --> GPIO TRIGGER CALLBACK heck RECEIVED" + myButton1.getState() + status + sendStatus);
+					LinkedMultiValueMap paramsMap = new LinkedMultiValueMap();
+					paramsMap.add("parkingLotName", "Parking Lot One");
+					paramsMap.add("parkingSpaceName", spotName);
+					paramsMap.add("parkingSpaceEvent", sendStatus);
+					WebClient.RequestHeadersSpec requestSpec = WebClient
+							.create("http://172.16.13.140:8080")
+							.put()
+							.uri("/space-map/update")
+							.body(BodyInserters.fromMultipartData(paramsMap));
+					String responseSpec = requestSpec.retrieve()
+							.bodyToMono(String.class)
+							.block();
+					System.out.println(responseSpec + myButton1.getState() + status + sendStatus);
+
+					return null;
+				}
+			}));
+
+
+
 
 		}
 		static {
