@@ -40,7 +40,7 @@ import java.util.concurrent.Callable;
 					paramsMap.add("parkingSpaceName", spotName);
 					paramsMap.add("parkingSpaceEvent", sendStatus);
 					WebClient.RequestHeadersSpec requestSpec = WebClient
-							.create("http://172.16.13.140:8080")
+							.create("http://parking.my-dog-spot.com")
 							.put()
 							.uri("/space-map/update")
 							.body(BodyInserters.fromMultipartData(paramsMap));
