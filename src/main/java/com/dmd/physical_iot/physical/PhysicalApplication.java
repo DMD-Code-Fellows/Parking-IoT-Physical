@@ -42,9 +42,9 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 			final GpioController gpio = GpioFactory.getInstance();
 			// provision gpio pin #02 as an input pin with its internal pull down resistor enabled
 
-			final GpioPinDigitalInput myButton1 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_03, "R2-6",
+			final GpioPinDigitalInput myButton1 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_02, "R2-6",
 					PinPullResistance.PULL_DOWN);
-			final GpioPinDigitalInput myButton2 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_02, "R1-1",
+			final GpioPinDigitalInput myButton2 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_07, "R1-1",
 					PinPullResistance.PULL_DOWN);
 
 			// create a gpio callback trigger on gpio pin#4; when #4 changes state, perform a callback
@@ -85,7 +85,7 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 					LinkedMultiValueMap paramsMap = new LinkedMultiValueMap();
 					paramsMap.add("parkingLotName", "Parking Lot One");
 					paramsMap.add("parkingSpaceName", spotName);
-					paramsMap.add("parkingSpaceEvent", sendStatus);
+					paramsMap.add("parkingSpaceEvent", sendStatus.toString());
 					WebClient.RequestHeadersSpec requestSpec = WebClient
 							.create("http://10.0.0.9:8080")
 							.put()
