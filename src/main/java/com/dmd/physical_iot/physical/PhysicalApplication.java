@@ -21,9 +21,9 @@ import java.util.concurrent.Callable;
 			// create gpio controller
 			final GpioController gpio = GpioFactory.getInstance();
 			// provision gpio pin #02 as an input pin with its internal pull down resistor enabled
-			final GpioPinDigitalInput myButton1 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_02, "R1-1",
+			final GpioPinDigitalInput myButton1 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_03, "R2-6",
 					PinPullResistance.PULL_DOWN);
-			final GpioPinDigitalInput myButton2 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_07, "R1-2",
+			final GpioPinDigitalInput myButton2 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_02, "R1-1",
 					PinPullResistance.PULL_DOWN);
 
 			// create a gpio callback trigger on gpio pin#4; when #4 changes state, perform a callback
@@ -55,9 +55,9 @@ import java.util.concurrent.Callable;
 
 			myButton2.addTrigger(new GpioCallbackTrigger(new Callable<Void>() {
 				public Void call() throws Exception {
-					Boolean status =  myButton1.getState().isLow();
+					Boolean status =  myButton2.getState().isLow();
 					String sendStatus = (status) ? "VACATE" : "OCCUPY";
-					String spotName = myButton1.getName();
+					String spotName = myButton2.getName();
 					System.out.println(" --> GPIO TRIGGER CALLBACK heck RECEIVED" + myButton1.getState() + status + sendStatus);
 					LinkedMultiValueMap paramsMap = new LinkedMultiValueMap();
 					paramsMap.add("parkingLotName", "Parking Lot One");
