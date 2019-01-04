@@ -46,10 +46,19 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 			 * @param pin pin
 			 * @param String name
 			 */
-			final GpioPinDigitalInput myButton1 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_02, "R2-6",
+			final GpioPinDigitalInput myButton1 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_00, "R1-1",
 					PinPullResistance.PULL_DOWN);
-			final GpioPinDigitalInput myButton2 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_07, "R1-1",
+			final GpioPinDigitalInput myButton2 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_02, "R1-2",
 					PinPullResistance.PULL_DOWN);
+			final GpioPinDigitalInput myButton3 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_03, "R1-3",
+					PinPullResistance.PULL_DOWN);
+			final GpioPinDigitalInput myButton4 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_04, "R2-2",
+					PinPullResistance.PULL_DOWN);
+			final GpioPinDigitalInput myButton5 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_05, "R2-4",
+					PinPullResistance.PULL_DOWN);
+			final GpioPinDigitalInput myButton6 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_06, "R1-6",
+					PinPullResistance.PULL_DOWN);
+
 
 
 			/**
@@ -73,7 +82,7 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 					 * get decorator interface's name.
 					 */
 					String spotName = myButton1.getName();
-					System.out.println(" --> GPIO TRIGGER CALLBACK heck RECEIVED" + myButton1.getState() + status + sendStatus);
+					System.out.println("GPIO TRIGGER CALLBACK  " + spotName + " " + status + " " + sendStatus);
 
 					/**
 					 * Spring framework utility
@@ -93,7 +102,8 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 					 *
 					 */
 					WebClient.RequestHeadersSpec requestSpec = WebClient
-							.create("http://parking.my-dog-spot.com/")
+
+							.create("http://parking.my-dog-spot.com")
 							.put()
 							.uri("/space-map/update")
 							.body(BodyInserters.fromMultipartData(paramsMap));
@@ -106,7 +116,7 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 					String responseSpec = requestSpec.retrieve()
 							.bodyToMono(String.class)
 							.block();
-					System.out.println(responseSpec + myButton1.getState() + status + sendStatus);
+					System.out.println(responseSpec + " " + spotName + " " + status + " " + sendStatus);
 
 					return null;
 				}
@@ -134,7 +144,7 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 					 * get decorator interface's name.
 					 */
 					String spotName = myButton2.getName();
-					System.out.println(" --> GPIO TRIGGER CALLBACK heck RECEIVED" + myButton1.getState() + status + sendStatus);
+					System.out.println("GPIO TRIGGER CALLBACK  " + spotName + " " + status + " " + sendStatus);
 
 					/**
 					 * Spring framework utility
@@ -154,7 +164,7 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 					 *
 					 */
 					WebClient.RequestHeadersSpec requestSpec = WebClient
-							.create("http://parking.my-dog-spot.com/")
+							.create("http://parking.my-dog-spot.com")
 							.put()
 							.uri("/space-map/update")
 							.body(BodyInserters.fromMultipartData(paramsMap));
@@ -167,11 +177,229 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 					String responseSpec = requestSpec.retrieve()
 							.bodyToMono(String.class)
 							.block();
-					System.out.println(responseSpec + myButton1.getState() + status + sendStatus);
+					System.out.println(responseSpec + " " + spotName + " " + status + " " + sendStatus);
 
 					return null;
 				}
 			}));
+
+			myButton3.addTrigger(new GpioCallbackTrigger(new Callable<Void>() {
+				public Void call() throws Exception {
+
+					/**
+					 * check if status of decorator interface is currently low
+					 * if true, current space is enum VACANT
+					 * else, current space is enum OCCUPIED
+					 */
+					Boolean status =  myButton3.getState().isLow();
+					ParkingSpaceEvents sendStatus = (status) ? VACATE : OCCUPY;
+
+					/**
+					 * get decorator interface's name.
+					 */
+					String spotName = myButton3.getName();
+					System.out.println("GPIO TRIGGER CALLBACK  " + spotName + " " + status + " " + sendStatus);
+
+					/**
+					 * Spring framework utility
+					 * implementation of MultiValueMap that wraps a LinkedHashMap
+					 * creates enum object handled by web client request
+					 */
+					LinkedMultiValueMap paramsMap = new LinkedMultiValueMap();
+					paramsMap.add("parkingLotName", "Parking Lot One");
+					paramsMap.add("parkingSpaceName", spotName);
+					paramsMap.add("parkingSpaceEvent", sendStatus.toString());
+
+					/**
+					 * Non-blocking, reactive client to perform HTTP requests, exposing a fluent, reactive API over underlying HTTP client libraries such as Reactor Netty.
+					 * @static_method create() create a new WebCLient with Reactor Netty by default
+					 * @instance_method put() Start building an HTTP PUT request
+					 * @param paramsMap reference to the spec type
+					 *
+					 */
+					WebClient.RequestHeadersSpec requestSpec = WebClient
+
+							.create("http://parking.my-dog-spot.com")
+							.put()
+							.uri("/space-map/update")
+							.body(BodyInserters.fromMultipartData(paramsMap));
+
+					/**
+					 * Perform the HTTP request and retrieve the response body
+					 * @bodyToMono Extracts the body to a Mono
+					 *
+					 */
+					String responseSpec = requestSpec.retrieve()
+							.bodyToMono(String.class)
+							.block();
+					System.out.println(responseSpec + " " + spotName + " " + status + " " + sendStatus);
+
+					return null;
+				}
+			}));
+
+			myButton4.addTrigger(new GpioCallbackTrigger(new Callable<Void>() {
+				public Void call() throws Exception {
+
+					/**
+					 * check if status of decorator interface is currently low
+					 * if true, current space is enum VACANT
+					 * else, current space is enum OCCUPIED
+					 */
+					Boolean status =  myButton4.getState().isLow();
+					ParkingSpaceEvents sendStatus = (status) ? VACATE : OCCUPY;
+
+					/**
+					 * get decorator interface's name.
+					 */
+					String spotName = myButton4.getName();
+					System.out.println("GPIO TRIGGER CALLBACK  " + spotName + " " + status + " " + sendStatus);
+
+					/**
+					 * Spring framework utility
+					 * implementation of MultiValueMap that wraps a LinkedHashMap
+					 * creates enum object handled by web client request
+					 */
+					LinkedMultiValueMap paramsMap = new LinkedMultiValueMap();
+					paramsMap.add("parkingLotName", "Parking Lot One");
+					paramsMap.add("parkingSpaceName", spotName);
+					paramsMap.add("parkingSpaceEvent", sendStatus.toString());
+
+					/**
+					 * Non-blocking, reactive client to perform HTTP requests, exposing a fluent, reactive API over underlying HTTP client libraries such as Reactor Netty.
+					 * @static_method create() create a new WebCLient with Reactor Netty by default
+					 * @instance_method put() Start building an HTTP PUT request
+					 * @param paramsMap reference to the spec type
+					 *
+					 */
+					WebClient.RequestHeadersSpec requestSpec = WebClient
+							.create("http://parking.my-dog-spot.com")
+							.put()
+							.uri("/space-map/update")
+							.body(BodyInserters.fromMultipartData(paramsMap));
+
+					/**
+					 * Perform the HTTP request and retrieve the response body
+					 * @bodyToMono Extracts the body to a Mono
+					 *
+					 */
+					String responseSpec = requestSpec.retrieve()
+							.bodyToMono(String.class)
+							.block();
+					System.out.println(responseSpec + " " + spotName + " " + status + " " + sendStatus);
+
+					return null;
+				}
+			}));
+
+			myButton5.addTrigger(new GpioCallbackTrigger(new Callable<Void>() {
+				public Void call() throws Exception {
+
+					/**
+					 * check if status of decorator interface is currently low
+					 * if true, current space is enum VACANT
+					 * else, current space is enum OCCUPIED
+					 */
+					Boolean status =  myButton5.getState().isLow();
+					ParkingSpaceEvents sendStatus = (status) ? VACATE : OCCUPY;
+
+					/**
+					 * get decorator interface's name.
+					 */
+					String spotName = myButton5.getName();
+					System.out.println("GPIO TRIGGER CALLBACK  " + spotName + " " + status + " " + sendStatus);
+
+					/**
+					 * Spring framework utility
+					 * implementation of MultiValueMap that wraps a LinkedHashMap
+					 * creates enum object handled by web client request
+					 */
+					LinkedMultiValueMap paramsMap = new LinkedMultiValueMap();
+					paramsMap.add("parkingLotName", "Parking Lot One");
+					paramsMap.add("parkingSpaceName", spotName);
+					paramsMap.add("parkingSpaceEvent", sendStatus.toString());
+
+					/**
+					 * Non-blocking, reactive client to perform HTTP requests, exposing a fluent, reactive API over underlying HTTP client libraries such as Reactor Netty.
+					 * @static_method create() create a new WebCLient with Reactor Netty by default
+					 * @instance_method put() Start building an HTTP PUT request
+					 * @param paramsMap reference to the spec type
+					 *
+					 */
+					WebClient.RequestHeadersSpec requestSpec = WebClient
+							.create("http://parking.my-dog-spot.com")
+							.put()
+							.uri("/space-map/update")
+							.body(BodyInserters.fromMultipartData(paramsMap));
+
+					/**
+					 * Perform the HTTP request and retrieve the response body
+					 * @bodyToMono Extracts the body to a Mono
+					 *
+					 */
+					String responseSpec = requestSpec.retrieve()
+							.bodyToMono(String.class)
+							.block();
+					System.out.println(responseSpec + " " + spotName + " " + status + " " + sendStatus);
+
+					return null;
+				}
+			}));
+
+			myButton6.addTrigger(new GpioCallbackTrigger(new Callable<Void>() {
+				public Void call() throws Exception {
+
+					/**
+					 * check if status of decorator interface is currently low
+					 * if true, current space is enum VACANT
+					 * else, current space is enum OCCUPIED
+					 */
+					Boolean status =  myButton6.getState().isLow();
+					ParkingSpaceEvents sendStatus = (status) ? VACATE : OCCUPY;
+
+					/**
+					 * get decorator interface's name.
+					 */
+					String spotName = myButton6.getName();
+					System.out.println("GPIO TRIGGER CALLBACK  " + spotName + " " + status + " " + sendStatus);
+
+					/**
+					 * Spring framework utility
+					 * implementation of MultiValueMap that wraps a LinkedHashMap
+					 * creates enum object handled by web client request
+					 */
+					LinkedMultiValueMap paramsMap = new LinkedMultiValueMap();
+					paramsMap.add("parkingLotName", "Parking Lot One");
+					paramsMap.add("parkingSpaceName", spotName);
+					paramsMap.add("parkingSpaceEvent", sendStatus.toString());
+
+					/**
+					 * Non-blocking, reactive client to perform HTTP requests, exposing a fluent, reactive API over underlying HTTP client libraries such as Reactor Netty.
+					 * @static_method create() create a new WebCLient with Reactor Netty by default
+					 * @instance_method put() Start building an HTTP PUT request
+					 * @param paramsMap reference to the spec type
+					 *
+					 */
+					WebClient.RequestHeadersSpec requestSpec = WebClient
+							.create("http://parking.my-dog-spot.com")
+							.put()
+							.uri("/space-map/update")
+							.body(BodyInserters.fromMultipartData(paramsMap));
+
+					/**
+					 * Perform the HTTP request and retrieve the response body
+					 * @bodyToMono Extracts the body to a Mono
+					 *
+					 */
+					String responseSpec = requestSpec.retrieve()
+							.bodyToMono(String.class)
+							.block();
+					System.out.println(responseSpec + " " + spotName + " " + status + " " + sendStatus);
+
+					return null;
+				}
+			}));
+
 
 
 			/**
