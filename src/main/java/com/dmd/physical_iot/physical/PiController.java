@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PiController {
 
     @RequestMapping("/")
-    public String home(){
+    public static String home(){
         return "hello world!";
     }
 }
