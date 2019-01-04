@@ -18,7 +18,8 @@ Code base and resource repository use for raspberry pi interaction with [Parking
 Documentation: 
 
 [Javadoc-Server](https://dmd-code-fellows.github.io/Parking-IoT-Server/)
-[Javadoc-Physica](https://dmd-code-fellows.github.io/Parking-IoT-Physical/)
+
+[Javadoc-Physical](https://dmd-code-fellows.github.io/Parking-IoT-Physical/)
 
 
 * [System requirements](#system-requirements)
