@@ -15,7 +15,11 @@ Our team name: DMD-Code-Fellows
 
 Code base and resource repository use for raspberry pi interaction with [Parking-Iot-Server](https://github.com/DMD-Code-Fellows/Parking-IoT-Server)
 
-Documentation: [Javadoc](https://dmd-code-fellows.github.io/Parking-IoT-Server/)
+Documentation: 
+
+[Javadoc-Server](https://dmd-code-fellows.github.io/Parking-IoT-Server/)
+[Javadoc-Physica](https://dmd-code-fellows.github.io/Parking-IoT-Physical/)
+
 
 * [System requirements](#system-requirements)
 * [Features](#features)
