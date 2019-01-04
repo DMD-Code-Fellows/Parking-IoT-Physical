@@ -102,6 +102,7 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 					 *
 					 */
 					WebClient.RequestHeadersSpec requestSpec = WebClient
+
 							.create("http://parking.my-dog-spot.com")
 							.put()
 							.uri("/space-map/update")
@@ -120,6 +121,7 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 					return null;
 				}
 			}));
+
 
 			/**
 			 * Creates a gpio callback trigger internally when the state of the decorator interface changes.
@@ -216,6 +218,7 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 					 *
 					 */
 					WebClient.RequestHeadersSpec requestSpec = WebClient
+
 							.create("http://parking.my-dog-spot.com")
 							.put()
 							.uri("/space-map/update")
@@ -403,7 +406,11 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 			 * static block for dynamic linking use of wiring pi
 			 */
 		}
+
 		static {
 			System.setProperty("pi4j.linking", "dynamic");
 		}
+
+
+
 	}
