@@ -56,7 +56,7 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 					PinPullResistance.PULL_DOWN);
 			final GpioPinDigitalInput myButton5 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_05, "R2-4",
 					PinPullResistance.PULL_DOWN);
-			final GpioPinDigitalInput myButton6 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_06, "R1-6",
+			final GpioPinDigitalInput myButton6 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_06, "R2-6",
 					PinPullResistance.PULL_DOWN);
 
 
