@@ -29,6 +29,7 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 	 */
 		public static void main(String[] args) {
 
+			// This file has a lot of "dangling" javadoc: comments that look like javadoc, but aren't above the definition of an instance var/method. It's fine to comment code that isn't Javadoc-commentable, but don't use the two-star comments that look like Javadoc unless you're actually writing Javadoc.
 			/**
 			 * static helper that used to run spring application using default setting
 			 */
@@ -41,6 +42,10 @@ import static com.dmd.iot.parking_iot.common.ParkingSpaceEvents.VACATE;
 			 */
 			final GpioController gpio = GpioFactory.getInstance();
 
+			// The code in here is EXTREMELY non-DRY. You've copy/pasted something six times for these six buttons.
+			// I'd much prefer if you wrote out the Callable class separately, and made instances of it for each of your buttons.
+			// Or, you could even put that code in a loop, for each button in an array of buttons you created.
+			// Either way, this file could be SIGNIFICANTLY shorter & easier to read.
 			/**
 			 * Creates a decorator interface to describe digital digital input pin using GPIO controller interface. Provisions input pin with pin and name parameter with internal pull down resistor enabled.
 			 * @param pin pin
